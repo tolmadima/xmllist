@@ -6,47 +6,100 @@ proxy-providers:
   MyGithubSub:
     type: http
     url: "https://raw.githubusercontent.com/zieng2/wl/main/vless_universal.txt"
-    path: ./providers/github_sub.yaml
-    interval: 3600
+    path: ./providers/MyGithubSub.yaml
+    interval: 1800
     health-check:
       enable: true
-      url: http://www.gstatic.com/generate_204
-      interval: 300
+      url: "http://ru.wikipedia.org"
+      interval: 120
 
   Relity_vless_white:
     type: http
     url: "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/Vless-Reality-White-Lists-Rus-Mobile.txt"
-    path: ./providers/github_sub.yaml
-    interval: 3600
+    path: ./providers/Relity_vless_white.yaml
+    interval: 1800
     health-check:
       enable: true
-      url: http://www.gstatic.com/generate_204
-      interval: 300
+      url: "http://ru.wikipedia.org"
+      interval: 120
 
   NiREvil:
     type: http
-    url: "https://raw.githubusercontent.com/NiREvil/vless/main/Russia.txt"
-    path: ./providers/github_sub.yaml
-    interval: 3600
+    url: "https://raw.githubusercontent.com/NiREvil/vless/main/sub/country_proxies/RU.txt"
+    path: ./providers/NiREvil.yaml
+    interval: 1800
     health-check:
       enable: true
-      url: http://www.gstatic.com/generate_204
-      interval: 300
+      url: "http://ru.wikipedia.org"
+      interval: 120
 
 proxy-groups:
+  # Промежуточные группы провайдеров (исключают 🇷🇺)
+  - name: "MyGithubSub"
+    type: select
+    use: [MyGithubSub]
+    exclude-filter: "🇷🇺"
+    
+  - name: "Relity_vless_white"
+    type: select
+    use: [Relity_vless_white]
+    exclude-filter: "🇷🇺"
+    
+  - name: "NiREvil"
+    type: select
+    use: [NiREvil]
+    exclude-filter: "🇷🇺"
+    
+  # Основная группа (авто-подбор для всего интернета)
   - name: "AutoSelect"
     type: url-test
-    use:
-      - MyGithubSub
-      - Relity_vless_white
-      - NiREvil
-    exclude-filter: "(?i)(RU|Russia)"
-    url: http://www.gstatic.com/generate_204
-    interval: 300
+    proxies:
+      - "MyGithubSub"
+      - "Relity_vless_white"
+      - "NiREvil"
+    url: "http://ru.wikipedia.org"
+    interval: 30
+    tolerance: 50
+    
+  # Telegram (отдельный авто-подбор)
+  - name: "Telegram"
+    type: url-test
+    proxies:
+      - "MyGithubSub"
+      - "Relity_vless_white"
+      - "NiREvil"
+    exclude-filter: "🇷🇺"
+    url: "http://ru.wikipedia.org"
+    interval: 30
     tolerance: 50
 
+rule-providers:
+  telegramcidr:
+    type: http
+    behavior: ipcidr
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.txt"
+    path: ./ruleset/telegramcidr.yaml
+    interval: 1800
+
 rules:
+  # Telegram → отдельная группа с авто-подбором
+  - RULE-SET,telegramcidr,Telegram
+  - DOMAIN-SUFFIX,t.me,Telegram
+  - DOMAIN-SUFFIX,telegram.me,Telegram
+  - DOMAIN-SUFFIX,telegram.org,Telegram
+  - DOMAIN-SUFFIX,telesco.pe,Telegram
+  
+  # Российский трафик → напрямую (DIRECT)
   - GEOIP,RU,DIRECT
   - GEOIP,RS,DIRECT
-  - GEOIP,RU,REJECT
+  - DOMAIN-SUFFIX,ru,DIRECT
+  - DOMAIN-SUFFIX,рф,DIRECT
+  - DOMAIN-SUFFIX,yandex.ru,DIRECT
+  - DOMAIN-SUFFIX,yandex.com,DIRECT
+  - DOMAIN-SUFFIX,vk.com,DIRECT
+  - DOMAIN-SUFFIX,vk.ru,DIRECT
+  - DOMAIN-SUFFIX,mail.ru,DIRECT
+  - DOMAIN-SUFFIX,rambler.ru,DIRECT
+  
+  # Всё остальное → основная группа
   - MATCH,AutoSelect
