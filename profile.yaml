@@ -23,10 +23,10 @@ proxy-providers:
       url: "http://ru.wikipedia.org"
       interval: 120
 
-  NiREvil:
+  26info:
     type: http
-    url: "https://raw.githubusercontent.com/NiREvil/vless/main/sub/country_proxies/RU.txt"
-    path: ./providers/NiREvil.yaml
+    url: "https://raw.githubusercontent.com/26info/vless-proxy-list/main/subscribe.txt"
+    path: ./providers/26info.yaml
     interval: 1800
     health-check:
       enable: true
@@ -45,9 +45,9 @@ proxy-groups:
     use: [Relity_vless_white]
     exclude-filter: "🇷🇺"
     
-  - name: "NiREvil"
+  - name: "26info"
     type: select
-    use: [NiREvil]
+    use: [26info]
     exclude-filter: "🇷🇺"
     
   # Основная группа (авто-подбор для всего интернета)
@@ -56,7 +56,7 @@ proxy-groups:
     proxies:
       - "MyGithubSub"
       - "Relity_vless_white"
-      - "NiREvil"
+      - "26info"
     url: "http://ru.wikipedia.org"
     interval: 30
     tolerance: 50
@@ -67,7 +67,7 @@ proxy-groups:
     proxies:
       - "MyGithubSub"
       - "Relity_vless_white"
-      - "NiREvil"
+      - "26info"
     exclude-filter: "🇷🇺"
     url: "http://ru.wikipedia.org"
     interval: 30
