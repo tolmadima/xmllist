@@ -23,19 +23,8 @@ proxy-providers:
       url: "http://ru.wikipedia.org"
       interval: 120
 
-  # Заменил 26info на Epodonios Sub1 (рабочая альтернатива)
-  V2rayConfigsSub1:
-    type: http
-    url: "https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/Sub1.txt"
-    path: ./providers/V2rayConfigsSub1.yaml
-    interval: 1800
-    health-check:
-      enable: true
-      url: "http://ru.wikipedia.org"
-      interval: 120
-
 proxy-groups:
-  # Промежуточные группы провайдеров (исключают 🇷🇺)
+  # Промежуточные группы (исключают 🇷🇺)
   - name: "MyGithubSub"
     type: select
     use: [MyGithubSub]
@@ -46,29 +35,22 @@ proxy-groups:
     use: [Relity_vless_white]
     exclude-filter: "🇷🇺"
     
-  - name: "V2rayConfigsSub1"
-    type: select
-    use: [EpodoniosSub1]
-    exclude-filter: "🇷🇺"
-    
-  # Основная группа (авто-подбор для всего интернета)
+  # Основная группа (ТОЛЬКО 2 провайдера — стабильность!)
   - name: "AutoSelect"
     type: url-test
     proxies:
+      - "Relity_vless_white"  # ← ПЕРВЫЙ приоритет (для белых списков)
       - "MyGithubSub"
-      - "Relity_vless_white"
-      - "V2rayConfigsSub1"  # ← Вместо 26info
     url: "http://ru.wikipedia.org"
     interval: 30
     tolerance: 50
     
-  # Telegram (отдельный авто-подбор)
+  # Telegram
   - name: "Telegram"
     type: url-test
     proxies:
-      - "MyGithubSub"
       - "Relity_vless_white"
-      - "V2rayConfigsSub1"  # ← Вместо 26info
+      - "MyGithubSub"
     exclude-filter: "🇷🇺"
     url: "http://ru.wikipedia.org"
     interval: 30
@@ -83,14 +65,14 @@ rule-providers:
     interval: 1800
 
 rules:
-  # Telegram → отдельная группа с авто-подбором
+  # Telegram
   - RULE-SET,telegramcidr,Telegram
   - DOMAIN-SUFFIX,t.me,Telegram
   - DOMAIN-SUFFIX,telegram.me,Telegram
   - DOMAIN-SUFFIX,telegram.org,Telegram
   - DOMAIN-SUFFIX,telesco.pe,Telegram
   
-  # Российский трафик → напрямую (DIRECT)
+  # Россия → DIRECT
   - GEOIP,RU,DIRECT
   - GEOIP,RS,DIRECT
   - DOMAIN-SUFFIX,ru,DIRECT
@@ -102,5 +84,4 @@ rules:
   - DOMAIN-SUFFIX,mail.ru,DIRECT
   - DOMAIN-SUFFIX,rambler.ru,DIRECT
   
-  # Всё остальное → основная группа
   - MATCH,AutoSelect
