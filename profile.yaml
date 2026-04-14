@@ -3,16 +3,6 @@ allow-lan: true
 unified-delay: true
 
 proxy-providers:
-  MyGithubSub:
-    type: http
-    url: "https://raw.githubusercontent.com/zieng2/wl/main/vless_universal.txt"
-    path: ./providers/MyGithubSub.yaml
-    interval: 1800
-    health-check:
-      enable: true
-      url: "http://ru.wikipedia.org"
-      interval: 120
-
   Relity_vless_white:
     type: http
     url: "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/Vless-Reality-White-Lists-Rus-Mobile.txt"
@@ -20,37 +10,37 @@ proxy-providers:
     interval: 1800
     health-check:
       enable: true
-      url: "http://ru.wikipedia.org"
+      url: "http://www.gstatic.com/generate_204"
+      interval: 120
+
+  MyGithubSub:
+    type: http
+    url: "https://raw.githubusercontent.com/zieng2/wl/main/vless_universal.txt"
+    path: ./providers/MyGithubSub.yaml
+    interval: 1800
+    health-check:
+      enable: true
+      url: "http://www.gstatic.com/generate_204"
       interval: 120
 
 proxy-groups:
-  # Промежуточные группы (исключают 🇷🇺)
-  - name: "MyGithubSub"
-    type: select
-    use: [MyGithubSub]
-    exclude-filter: "🇷🇺"
-    
-  - name: "Relity_vless_white"
-    type: select
-    use: [Relity_vless_white]
-    exclude-filter: "🇷🇺"
-    
-  # Основная группа (ТОЛЬКО 2 провайдера — стабильность!)
+  # ЕДИНАЯ группа - автоматически берёт ВСЕ прокси из обоих провайдеров
   - name: "AutoSelect"
     type: url-test
-    proxies:
-      - "Relity_vless_white"  # ← ПЕРВЫЙ приоритет (для белых списков)
-      - "MyGithubSub"
-    url: "http://ru.wikipedia.org"
+    use:
+      - Relity_vless_white  # Все ноды из Reality
+      - MyGithubSub         # Все ноды из Github
+    exclude-filter: "🇷🇺"
+    url: "http://www.gstatic.com/generate_204"
     interval: 30
     tolerance: 50
-    
-  # Telegram
+  
+  # Telegram отдельно
   - name: "Telegram"
     type: url-test
-    proxies:
-      - "Relity_vless_white"
-      - "MyGithubSub"
+    use:
+      - Relity_vless_white
+      - MyGithubSub
     exclude-filter: "🇷🇺"
     url: "http://ru.wikipedia.org"
     interval: 30
