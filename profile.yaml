@@ -24,10 +24,10 @@ proxy-providers:
       interval: 120
 
   # Заменил 26info на Epodonios Sub1 (рабочая альтернатива)
-  EpodoniosSub1:
+  V2rayConfigsSub1:
     type: http
-    url: "https://raw.githubusercontent.com/Epodonios/v2ray-configs/main/Sub1.txt"
-    path: ./providers/EpodoniosSub1.yaml
+    url: "https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/Sub1.txt"
+    path: ./providers/V2rayConfigsSub1.yaml
     interval: 1800
     health-check:
       enable: true
@@ -46,7 +46,7 @@ proxy-groups:
     use: [Relity_vless_white]
     exclude-filter: "🇷🇺"
     
-  - name: "EpodoniosSub1"
+  - name: "V2rayConfigsSub1"
     type: select
     use: [EpodoniosSub1]
     exclude-filter: "🇷🇺"
@@ -57,7 +57,7 @@ proxy-groups:
     proxies:
       - "MyGithubSub"
       - "Relity_vless_white"
-      - "EpodoniosSub1"  # ← Вместо 26info
+      - "V2rayConfigsSub1"  # ← Вместо 26info
     url: "http://ru.wikipedia.org"
     interval: 30
     tolerance: 50
@@ -68,7 +68,7 @@ proxy-groups:
     proxies:
       - "MyGithubSub"
       - "Relity_vless_white"
-      - "EpodoniosSub1"  # ← Вместо 26info
+      - "V2rayConfigsSub1"  # ← Вместо 26info
     exclude-filter: "🇷🇺"
     url: "http://ru.wikipedia.org"
     interval: 30
