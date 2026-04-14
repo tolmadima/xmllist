@@ -1,0 +1,52 @@
+mode: rule
+allow-lan: true
+unified-delay: true
+
+proxy-providers:
+  MyGithubSub:
+    type: http
+    url: "https://raw.githubusercontent.com/zieng2/wl/main/vless_universal.txt"
+    path: ./providers/github_sub.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 300
+
+  Relity_vless_white:
+    type: http
+    url: "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/Vless-Reality-White-Lists-Rus-Mobile.txt"
+    path: ./providers/github_sub.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 300
+
+  NiREvil:
+    type: http
+    url: "https://raw.githubusercontent.com/NiREvil/vless/main/Russia.txt"
+    path: ./providers/github_sub.yaml
+    interval: 3600
+    health-check:
+      enable: true
+      url: http://www.gstatic.com/generate_204
+      interval: 300
+
+proxy-groups:
+  - name: "AutoSelect"
+    type: url-test
+    use:
+      - MyGithubSub
+      - Relity_vless_white
+      - NiREvil
+    exclude-filter: "(?i)(RU|Russia)"
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+
+rules:
+  - GEOIP,RU,DIRECT
+  - GEOIP,RS,DIRECT
+  - GEOIP,RU,REJECT
+  - MATCH,AutoSelect
