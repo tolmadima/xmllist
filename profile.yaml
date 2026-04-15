@@ -11,7 +11,7 @@ proxy-providers:
     health-check:
       enable: true
       url: "http://1.1.1.1"
-      interval: 120
+      interval: 60
 
   MyGithubSub:
     type: http
@@ -21,7 +21,7 @@ proxy-providers:
     health-check:
       enable: true
       url: "http://1.1.1.1"
-      interval: 120
+      interval: 60
 
 proxy-groups:
   # ЕДИНАЯ группа - автоматически берёт ВСЕ прокси из обоих провайдеров
@@ -30,10 +30,9 @@ proxy-groups:
     use:
       - Relity_vless_white  # Все ноды из Reality
       - MyGithubSub         # Все ноды из Github
-    exclude-filter: "🇷🇺"
     url: "http://1.1.1.1"
     interval: 30
-    tolerance: 50
+    tolerance: 35
   
   # Telegram отдельно
   - name: "Telegram"
@@ -42,9 +41,9 @@ proxy-groups:
       - Relity_vless_white
       - MyGithubSub
     exclude-filter: "🇷🇺"
-    url: "http://ru.wikipedia.org"
+    url: "http://www.github.com/generate_204"
     interval: 30
-    tolerance: 50
+    tolerance: 35
 
 rule-providers:
   telegramcidr:
