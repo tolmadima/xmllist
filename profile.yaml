@@ -54,16 +54,18 @@ proxy-providers:
       interval: 60
 
 proxy-groups:
-
- - name: "EbnuliVse"
-    type: url-test
-    use:
-      - CIDR_all
+  # Telegram с автоматическим fallback на EbnuliVse
+  - name: "Telegram-Fallback"
+    type: fallback
+    proxies:
+      - Telegram
+      - EbnuliVse
     url: "http://www.github.com/generate_204"
     interval: 30
-    tolerance: 35
+    timeout: 5000
+    lazy: true
 
-  # Telegram отдельно
+  # Telegram (оригинальная url-test группа)
   - name: "Telegram"
     type: url-test
     use:
@@ -71,6 +73,15 @@ proxy-groups:
       - Relity_vless_white
       - Relity_vless_white_2
       - Relity_vless_sni_white
+    url: "http://www.github.com/generate_204"
+    interval: 30
+    tolerance: 35
+
+  # EbnuliVse (fallback цель)
+  - name: "EbnuliVse"
+    type: url-test
+    use:
+      - CIDR_all
     url: "http://www.github.com/generate_204"
     interval: 30
     tolerance: 35
@@ -84,12 +95,12 @@ rule-providers:
     interval: 1800
 
 rules:
-  # Telegram
-  - RULE-SET,telegramcidr,Telegram
-  - DOMAIN-SUFFIX,t.me,Telegram
-  - DOMAIN-SUFFIX,telegram.me,Telegram
-  - DOMAIN-SUFFIX,telegram.org,Telegram
-  - DOMAIN-SUFFIX,telesco.pe,Telegram
+  # Telegram → Telegram-Fallback (с авто-fallback на EbnuliVse)
+  - RULE-SET,telegramcidr,Telegram-Fallback
+  - DOMAIN-SUFFIX,t.me,Telegram-Fallback
+  - DOMAIN-SUFFIX,telegram.me,Telegram-Fallback
+  - DOMAIN-SUFFIX,telegram.org,Telegram-Fallback
+  - DOMAIN-SUFFIX,telesco.pe,Telegram-Fallback
   
   # Россия → DIRECT
   - GEOIP,RU,DIRECT
