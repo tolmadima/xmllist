@@ -53,6 +53,19 @@ proxy-providers:
       url: "http://www.github.com/generate_204"
       interval: 60
 
+      # Финальная группа для всего остального трафика
+  - name: "AutoSelect"
+    type: url-test  # Автовыбор лучшего
+    use:
+      - Relity_vless_white
+      - Relity_vless_white_2
+      - Relity_vless_sni_white
+      - zieng2
+      - CIDR_all
+    url: "http://www.github.com/generate_204"
+    interval: 30
+    tolerance: 35
+
 proxy-groups:
   # Telegram с автоматическим fallback на EbnuliVse
   - name: "Telegram-Fallback"
