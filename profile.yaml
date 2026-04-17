@@ -10,7 +10,7 @@ proxy-providers:
     interval: 900
     health-check:
       enable: true
-      url: "gstatic.com/generate_204"
+      url: "http://www.github.com/generate_204"
       interval: 60
 
   MyGithubSub:
@@ -20,7 +20,7 @@ proxy-providers:
     interval: 900
     health-check:
       enable: true
-      url: "gstatic.com/generate_204"
+      url: "http://www.github.com/generate_204"
       interval: 60
 
 proxy-groups:
@@ -30,7 +30,7 @@ proxy-groups:
     use:
       - Relity_vless_white  # Все ноды из Reality
       - MyGithubSub         # Все ноды из Github
-    url: "gstatic.com/generate_204"
+    url: "http://www.github.com/generate_204"
     interval: 30
     tolerance: 35
   
