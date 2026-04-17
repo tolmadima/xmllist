@@ -5,7 +5,7 @@ unified-delay: true
 proxy-providers:
   Relity_vless_white:
     type: http
-    url: "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/Vless-Reality-White-Lists-Rus-Mobile.txt"
+    url: "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile.txt"
     path: ./providers/Relity_vless_white.yaml
     interval: 900
     health-check:
@@ -13,10 +13,40 @@ proxy-providers:
       url: "http://www.github.com/generate_204"
       interval: 60
 
-  MyGithubSub:
+  Relity_vless_white_2:
+    type: http
+    url: "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile-2.txt"
+    path: ./providers/Relity_vless_white_2.yaml
+    interval: 900
+    health-check:
+      enable: true
+      url: "http://www.github.com/generate_204"
+      interval: 60
+
+  Relity_vless_sni_white:
+    type: http
+    url: "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-SNI-RU-all.txt"
+    path: ./providers/Relity_vless_sni_white.yaml
+    interval: 900
+    health-check:
+      enable: true
+      url: "http://www.github.com/generate_204"
+      interval: 60
+
+  zieng2:
     type: http
     url: "https://raw.githubusercontent.com/zieng2/wl/main/vless_universal.txt"
-    path: ./providers/MyGithubSub.yaml
+    path: ./providers/zieng2.yaml
+    interval: 900
+    health-check:
+      enable: true
+      url: "http://www.github.com/generate_204"
+      interval: 60
+
+  CIDR_all:
+    type: http
+    url: "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-CIDR-RU-all.txt"
+    path: ./providers/CIDR_all.yaml
     interval: 900
     health-check:
       enable: true
@@ -24,23 +54,23 @@ proxy-providers:
       interval: 60
 
 proxy-groups:
-  # ЕДИНАЯ группа - автоматически берёт ВСЕ прокси из обоих провайдеров
-  - name: "AutoSelect"
+
+ - name: "EbnuliVse"
     type: url-test
     use:
-      - Relity_vless_white  # Все ноды из Reality
-      - MyGithubSub         # Все ноды из Github
+      - CIDR_all
     url: "http://www.github.com/generate_204"
     interval: 30
     tolerance: 35
-  
+
   # Telegram отдельно
   - name: "Telegram"
     type: url-test
     use:
+      - zieng2
       - Relity_vless_white
-      - MyGithubSub
-    exclude-filter: "🇷🇺"
+      - Relity_vless_white_2
+      - Relity_vless_sni_white
     url: "http://www.github.com/generate_204"
     interval: 30
     tolerance: 35
