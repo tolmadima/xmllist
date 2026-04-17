@@ -7,20 +7,20 @@ proxy-providers:
     type: http
     url: "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/main/Vless-Reality-White-Lists-Rus-Mobile.txt"
     path: ./providers/Relity_vless_white.yaml
-    interval: 1800
+    interval: 900
     health-check:
       enable: true
-      url: "http://1.1.1.1"
+      url: "gstatic.com/generate_204"
       interval: 60
 
   MyGithubSub:
     type: http
     url: "https://raw.githubusercontent.com/zieng2/wl/main/vless_universal.txt"
     path: ./providers/MyGithubSub.yaml
-    interval: 1800
+    interval: 900
     health-check:
       enable: true
-      url: "http://1.1.1.1"
+      url: "gstatic.com/generate_204"
       interval: 60
 
 proxy-groups:
@@ -30,7 +30,7 @@ proxy-groups:
     use:
       - Relity_vless_white  # Все ноды из Reality
       - MyGithubSub         # Все ноды из Github
-    url: "http://1.1.1.1"
+    url: "gstatic.com/generate_204"
     interval: 30
     tolerance: 35
   
