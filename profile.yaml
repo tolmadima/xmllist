@@ -63,7 +63,7 @@ proxy-groups:
     proxies:
       - Telegram
       - EbnuliVse
-    url: "http://www.github.com/generate_204"
+    url: "http://149.154.167.99"
     interval: 30
     timeout: 5000
     lazy: true
@@ -76,7 +76,7 @@ proxy-groups:
       - Relity_vless_white
       - Relity_vless_white_2
       - Relity_vless_sni_white
-    url: "http://www.github.com/generate_204"
+    url: "http://149.154.167.99"
     interval: 30
     tolerance: 35
 
