@@ -11,7 +11,7 @@ proxy-providers:
     health-check:
       enable: true
       url: "http://www.github.com/generate_204"
-      interval: 60
+      interval: 180
 
   Relity_vless_white_2:
     type: http
@@ -21,7 +21,7 @@ proxy-providers:
     health-check:
       enable: true
       url: "http://www.github.com/generate_204"
-      interval: 60
+      interval: 180
 
   Relity_vless_sni_white:
     type: http
@@ -31,7 +31,7 @@ proxy-providers:
     health-check:
       enable: true
       url: "http://www.github.com/generate_204"
-      interval: 60
+      interval: 180
 
   zieng2:
     type: http
@@ -41,7 +41,7 @@ proxy-providers:
     health-check:
       enable: true
       url: "http://www.github.com/generate_204"
-      interval: 60
+      interval: 180
 
   CIDR_all:
     type: http
@@ -51,7 +51,7 @@ proxy-providers:
     health-check:
       enable: true
       url: "http://www.github.com/generate_204"
-      interval: 60
+      interval: 180
 
       # Финальная группа для всего остального трафика
   
@@ -64,8 +64,8 @@ proxy-groups:
       - Telegram
       - EbnuliVse
     url: "http://149.154.167.99"
-    interval: 30
-    timeout: 5000
+    interval: 90
+    timeout: 600
     lazy: true
 
   # Telegram (оригинальная url-test группа)
@@ -77,8 +77,8 @@ proxy-groups:
       - Relity_vless_white_2
       - Relity_vless_sni_white
     url: "http://149.154.167.99"
-    interval: 30
-    tolerance: 35
+    interval: 90
+    tolerance: 50
 
   # EbnuliVse (fallback цель)
   - name: "EbnuliVse"
@@ -86,8 +86,8 @@ proxy-groups:
     use:
       - CIDR_all
     url: "http://www.github.com/generate_204"
-    interval: 30
-    tolerance: 35
+    interval: 90
+    tolerance: 50
 
   - name: "AutoSelect"
     type: url-test  # Автовыбор лучшего
@@ -98,8 +98,8 @@ proxy-groups:
       - zieng2
       - CIDR_all
     url: "http://www.github.com/generate_204"
-    interval: 30
-    tolerance: 35
+    interval: 90
+    tolerance: 50
 
 rule-providers:
   telegramcidr:
