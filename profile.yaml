@@ -7,7 +7,7 @@ proxy-providers:
     type: http
     url: "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile.txt"
     path: ./providers/Relity_vless_white.yaml
-    interval: 900
+    interval: 3600
     health-check:
       enable: true
       url: "http://www.github.com/generate_204"
@@ -17,7 +17,7 @@ proxy-providers:
     type: http
     url: "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile-2.txt"
     path: ./providers/Relity_vless_white_2.yaml
-    interval: 900
+    interval: 3600
     health-check:
       enable: true
       url: "http://www.github.com/generate_204"
@@ -27,7 +27,7 @@ proxy-providers:
     type: http
     url: "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/WHITE-SNI-RU-all.txt"
     path: ./providers/Relity_vless_sni_white.yaml
-    interval: 900
+    interval: 3600
     health-check:
       enable: true
       url: "http://www.github.com/generate_204"
@@ -46,9 +46,10 @@ proxy-groups:
       - Relity_vless_white
       - Relity_vless_white_2
       - Relity_vless_sni_white
+    exclude-filter: "(?i)(RU|Russia)"
     url: "http://www.github.com/generate_204"
     interval: 300
-    tolerance: 50
+    tolerance: 30
 
 rule-providers:
   telegramcidr:
