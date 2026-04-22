@@ -46,7 +46,6 @@ proxy-groups:
       - Relity_vless_white
       - Relity_vless_white_2
       - Relity_vless_sni_white
-    exclude-filter: "(?i)(RU|Russia)"
     url: "http://www.github.com/generate_204"
     interval: 300
     tolerance: 30
