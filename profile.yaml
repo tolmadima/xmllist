@@ -15,9 +15,9 @@ proxy-providers:
 
   Relity_vless_white_2:
     type: http
-    url: "https://raw.githubusercontent.com/igareck/vpn-configs-for-russia/refs/heads/main/Vless-Reality-White-Lists-Rus-Mobile-2.txt"
-    path: ./providers/Relity_vless_white_2.yaml
-    interval: 3600
+    url: "https://raw.githubusercontent.com/zieng2/wl/main/vless_universal.txt"
+    path: ./providers/zieng2.yaml
+    interval: 900
     health-check:
       enable: true
       url: "http://www.github.com/generate_204"
